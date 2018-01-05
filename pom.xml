@@ -17,16 +17,17 @@
   <version>5.23.0-SNAPSHOT</version>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.6</java.version>
     <spring.version>4.3.5.RELEASE</spring.version>
     <spring-security.version>4.2.3.RELEASE</spring-security.version>
     <mule.version>3.8.1</mule.version>
-    <cxf.version>2.6.14</cxf.version>
     <cxf.version>3.1.14</cxf.version>
     <camel.version>2.17.6</camel.version>
-    <batik.version>1.7</batik.version>
+    <batik.version>1.9.1</batik.version>
     <jackson.version>2.8.10</jackson.version>
     <slf4j.version>1.7.6</slf4j.version>
     <drools.version>6.5.0.Final</drools.version>
+    <gwt.version>2.5.1</gwt.version>
 
     <!-- JVM params for test execution -->
     <argLine>-Duser.language=en</argLine>
@@ -113,9 +114,9 @@
         <version>${slf4j.version}</version>
       </dependency>
       <dependency>
-        <groupId>commons-logging</groupId>
-        <artifactId>commons-logging</artifactId>
-        <version>1.1.1</version>
+        <groupId>commons-collections</groupId>
+        <artifactId>commons-collections</artifactId>
+        <version>3.2.2</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -136,6 +137,12 @@
         <groupId>org.apache.httpcomponents</groupId>
         <artifactId>httpclient</artifactId>
         <version>4.5.2</version>
+        <exclusions>
+          <exclusion>
+            <artifactId>commons-logging</artifactId>
+            <groupId>commons-logging</groupId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>com.oracle.jdbc</groupId>
@@ -194,7 +201,7 @@
       <dependency>
         <groupId>mysql</groupId>
         <artifactId>mysql-connector-java</artifactId>
-        <version>5.1.27</version>
+        <version>5.1.41</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -208,13 +215,11 @@
         <artifactId>activiti-engine</artifactId>
         <version>${project.version}</version>
       </dependency>
-
       <dependency>
         <groupId>org.activiti</groupId>
         <artifactId>activiti-secure-tasks</artifactId>
         <version>${project.version}</version>
       </dependency>
-
       <dependency>
         <groupId>org.activiti</groupId>
         <artifactId>activiti-spring</artifactId>
@@ -391,9 +396,35 @@
         <version>${mule.version}</version>
       </dependency>
       <dependency>
+        <groupId>org.mule.transports</groupId>
+        <artifactId>mule-transport-http</artifactId>
+        <version>${mule.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mule.transports</groupId>
+        <artifactId>mule-transport-vm</artifactId>
+        <version>${mule.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mule.modules</groupId>
+        <artifactId>mule-module-scripting</artifactId>
+        <version>${mule.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+          </exclusion>
+        </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>org.mule.modules</groupId>
+        <artifactId>mule-module-spring-security</artifactId>
+        <version>${mule.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.mybatis</groupId>
         <artifactId>mybatis</artifactId>
-        <version>3.3.0</version>
+        <version>3.3.1</version>
       </dependency>
       <dependency>
         <groupId>org.mockito</groupId>
@@ -418,11 +449,6 @@
         <artifactId>org.apache.felix.fileinstall</artifactId>
         <version>3.5.4</version>
         <optional>true</optional>
-      </dependency>
-      <dependency>
-        <groupId>org.slf4j</groupId>
-        <artifactId>slf4j-jdk14</artifactId>
-        <version>1.7.6</version>
       </dependency>
       <dependency>
         <groupId>org.springframework</groupId>
@@ -580,6 +606,16 @@
         <groupId>org.apache.xmlgraphics</groupId>
         <artifactId>batik-bridge</artifactId>
         <version>${batik.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-script</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.apache.xmlgraphics</groupId>
@@ -620,13 +656,13 @@
       <dependency>
         <groupId>com.google.gwt</groupId>
         <artifactId>gwt-user</artifactId>
-        <version>2.3.0</version>
+        <version>${gwt.version}</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
         <groupId>com.google.gwt</groupId>
         <artifactId>gwt-servlet</artifactId>
-        <version>2.3.0</version>
+        <version>${gwt.version}</version>
       </dependency>
       <!-- Camel integration -->
       <dependency>
@@ -672,17 +708,19 @@
   <build>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>2.3.2</version>
         <configuration>
-          <source>1.6</source>
-          <target>1.6</target>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
           <showDeprecation>true</showDeprecation>
           <showWarnings>true</showWarnings>
           <optimize>true</optimize>
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.7.1</version>
         <configuration>
@@ -727,6 +765,21 @@
           </versions>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.owasp</groupId>
+        <artifactId>dependency-check-maven</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <failBuildOnCVSS>7</failBuildOnCVSS>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
@@ -747,6 +800,11 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
           <version>2.3.2</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-war-plugin</artifactId>
+          <version>2.4</version>
         </plugin>
         <!--This plugin's configuration is used to store Eclipse m2e settings
           only. It has no influence on the Maven build itself. -->
@@ -782,6 +840,25 @@
             <mavenExecutorId>forked-path</mavenExecutorId>
             <useReleaseProfile>false</useReleaseProfile>
             <arguments>${arguments} -Psonatype-oss-release</arguments>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.zeroturnaround</groupId>
+          <artifactId>jrebel-maven-plugin</artifactId>
+          <version>1.1.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.tomcat.maven</groupId>
+          <artifactId>tomcat7-maven-plugin</artifactId>
+          <version>2.1</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-eclipse-plugin</artifactId>
+          <version>2.9</version>
+          <configuration>
+            <downloadSources>true</downloadSources>
+            <downloadJavadocs>true</downloadJavadocs>
           </configuration>
         </plugin>
       </plugins>
