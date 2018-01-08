@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.1.xsd">
+
+  <suppress>
+    <notes><![CDATA[
+   library within bower_dependencies used when building the javascript application
+   ]]></notes>
+    <gav regex="true">^com\.google\.protobuf:protobuf-java:.*$</gav>
+    <cpe>cpe:/a:google:protobuf</cpe>
+  </suppress>
+
+</suppressions>

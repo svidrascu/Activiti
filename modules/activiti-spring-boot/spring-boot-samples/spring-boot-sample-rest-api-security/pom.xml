@@ -10,17 +10,21 @@
 
   <artifactId>spring-boot-sample-rest-api-security</artifactId>
 
+  <properties>
+    <suppressionFile>${basedir}/../../../../dependency-check-suppression.xml</suppressionFile>
+  </properties>
+
   <dependencies>
     <dependency>
       <groupId>org.activiti</groupId>
       <artifactId>activiti-spring-boot-starter-rest-api</artifactId>
-      <version>6.0.1-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.activiti</groupId>
       <artifactId>activiti-spring-boot-starter-security</artifactId>
-      <version>6.0.1-SNAPSHOT</version>
+      <version>${project.version}</version>
     </dependency>
 
     <dependency>
